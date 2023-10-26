@@ -167,7 +167,7 @@ def capture_current_view(directory, view_name, width=1118, height=627):
 def create_video_captures(directory_base):
     for i in range(180):
         viewPort = rs.CurrentView()
-        rs.RotateView(viewPort, 0, 2)
+        rs.RotateView(viewPort, 2, 2)
         rh.RhinoApp.Wait()
         capture_current_view(directory_base, i)
     for i in range(180):

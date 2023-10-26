@@ -37,7 +37,7 @@ def main():
             
             rs.ViewDisplayMode("Perspective", "Rendered")
             rs.CurrentView("Perspective")
-            captures_directory = functions.create_directory("Captures")
+            captures_directory = functions.create_directory("Captures" + str(i))
             if captures_directory:
                 functions.create_video_captures(captures_directory)
                 
@@ -56,7 +56,7 @@ def main():
             # Command to run the external Python script to add logos to all the images in the Captures folder
             command = ['C:/Users/noyda/AppData/Local/Programs/Python/Python37/python.exe', 
                     'G:/Meine Ablage/3D Modelling/#s9hU_All_logos/add_logo_to_images.py',
-                    base_path, doc_name]
+                    base_path, doc_name, "Captures" + str(i)]
 
             # This will suppress the console window
             startupinfo = subprocess.STARTUPINFO()

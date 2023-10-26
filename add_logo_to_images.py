@@ -54,8 +54,8 @@ def main():
     # Get current directory from the argument passed from the .bat file
     current_directory = sys.argv[1].replace("\\", "/").replace("\"","")
     file_name = sys.argv[2]
-
-    captures_directory = os.path.join(current_directory, "Captures")
+    captures_folder = sys.argv[3]
+    captures_directory = os.path.join(current_directory, captures_folder)
     # Path to the logo
     logo_path = "G:/Meine Ablage/3D Modelling/#s9hU_All_logos/bandicam_logo.png"
     
