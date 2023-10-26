@@ -29,14 +29,16 @@ def add_logo_to_image(image_path, logo_path):
 def create_video(captures_directory, output_path):
     # Get all the image files from the captures directory
     files = [os.path.join(captures_directory, f) for f in os.listdir(captures_directory) if f.lower().endswith(('.png', '.jpg', '.jpeg'))]
+
+    sorted_files = sorted(files, key=lambda f: int(os.path.basename(f).split('.')[0]))
     
     # Check if there are any image files
-    if not files:
+    if not sorted_files:
         print("No images found in the specified directory!")
         return
 
     # Find out the frame width and height from the first image
-    frame = cv2.imread(files[0])
+    frame = cv2.imread(sorted_files[0])
     h, w, layers = frame.shape
     size = (w, h)
     
@@ -44,7 +46,7 @@ def create_video(captures_directory, output_path):
     out = cv2.VideoWriter(output_path, cv2.VideoWriter_fourcc(*'mp4v'), 19, size)
     
     # Read each file and write it to the video
-    for file in files:
+    for file in sorted_files:
         img = cv2.imread(file)
         out.write(img)
     

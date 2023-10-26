@@ -56,7 +56,7 @@ def main():
             # Command to run the external Python script to add logos to all the images in the Captures folder
             command = ['C:/Users/noyda/AppData/Local/Programs/Python/Python37/python.exe', 
                     'G:/Meine Ablage/3D Modelling/#s9hU_All_logos/add_logo_to_images.py',
-                    base_path, doc_name + str(i), "Captures" + str(i)]
+                    base_path, doc_name + '_' + str(i), "Captures" + str(i)]
 
             # This will suppress the console window
             startupinfo = subprocess.STARTUPINFO()
@@ -65,7 +65,7 @@ def main():
             subprocess.Popen(command, startupinfo=startupinfo)
 
             sc.doc.Modified = False
-            #rs.Command("_Exit")
+            rs.Command("_Exit")
 
     
     

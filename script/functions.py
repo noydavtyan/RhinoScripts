@@ -175,4 +175,4 @@ def create_video_captures(directory_base):
         rs.RotateView(viewPort, 2, 2)
         rs.RotateView(viewPort, 0, 2)
         rh.RhinoApp.Wait()
-        capture_current_view(directory_base, i)
+        capture_current_view(directory_base, 180 + i)
