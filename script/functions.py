@@ -1,4 +1,8 @@
 import rhinoscriptsyntax as rs
+import Rhino as rh
+import Rhino.Render as rr
+import Rhino.DocObjects as rd
+import scriptcontext as sc
 import os
 
 #########################################################################################
