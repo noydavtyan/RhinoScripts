@@ -111,13 +111,27 @@ def select_objects_not_in_gem_layers_and_assign_material(material_name, layer_na
 def select_objects_in_layer(layer_name):
     """Select objects not in given layers and assign a specified material."""
     all_layers = rs.LayerNames()
-    non_gem_layers = [layer for layer in all_layers if  layer == layer_name]
     
-    for layer in non_gem_layers:
-        objs = rs.ObjectsByLayer(layer)
+    if layer_name in all_layers:
+        objs = rs.ObjectsByLayer(layer_name)
         if objs:
             rs.SelectObjects(objs)
     
+    rs.UnselectAllObjects()
+
+##############################################################################################
+## ASSIGN MATERIAL TO LAYER
+def assign_material(material_name, layer_name):
+    """Select objects not in given layers and assign a specified material."""
+    all_layers = rs.LayerNames()
+    
+    if layer_name in all_layers:
+        objs = rs.ObjectsByLayer(layer_name)
+        if objs:
+            rs.SelectObjects(objs)
+    
+    if rs.SelectedObjects():
+        rs.Command('_RenderAssignMaterialToObjects "{}"'.format(material_name), False)
     rs.UnselectAllObjects()
     
 ###############################################################################################
