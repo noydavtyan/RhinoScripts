@@ -18,8 +18,8 @@ def main():
             functions.remove_all_materials()
 
             # Create materials
-    functions.create_pbr_material(rh.Display.Color4f.FromArgb(255, 1, 1, 1), "Silver")
-    functions.create_pbr_material(rh.Display.Color4f.FromArgb(255, 1, 0.749, 0.749), "Ruby", opacity=0)
+            functions.create_pbr_material(rh.Display.Color4f.FromArgb(255, 1, 1, 1), "Silver")
+            functions.create_pbr_material(rh.Display.Color4f.FromArgb(255, 1, 0.749, 0.749), "Ruby", opacity=0)
             rs.Command("_ZEA")
             rs.Command("-DocumentProperties R B B 105,105,105 enter enter enter", False)
 
@@ -50,11 +50,11 @@ if __name__ == '__main__':
 
     # Get the path of the current script (as a replacement for the .bat file path)
     base_path = rs.DocumentPath()
-
+    doc_name = rs.DocumentName()
     # Command to run the external Python script to add logos to all the images in the Captures folder
     command = ['C:/Users/noyda/AppData/Local/Programs/Python/Python37/python.exe', 
             'G:/Meine Ablage/3D Modelling/#s9hU_All_logos/add_logo_to_images.py',
-            base_path]
+            base_path, doc_name]
 
     # This will suppress the console window
     startupinfo = subprocess.STARTUPINFO()
