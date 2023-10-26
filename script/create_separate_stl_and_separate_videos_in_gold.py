@@ -11,9 +11,9 @@ def main():
     all_layers = rs.LayerNames()
     for i in range(30):
         if str(i) in all_layers:
-            functions.export_current_to_stl(i)
             functions.select_objects_in_layer(str(i))
             rs.Command("_Isolate")
+            functions.export_current_to_stl(i)
 
             functions.remove_all_materials()
 
@@ -63,6 +63,6 @@ if __name__ == '__main__':
     subprocess.Popen(command, startupinfo=startupinfo)
 
     sc.doc.Modified = False
-    rs.Command("_Exit")
+    #rs.Command("_Exit")
 
 

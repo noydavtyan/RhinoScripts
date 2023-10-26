@@ -120,8 +120,6 @@ def select_objects_in_layer(layer_name):
         objs = rs.ObjectsByLayer(layer_name)
         if objs:
             rs.SelectObjects(objs)
-    
-    rs.UnselectAllObjects()
 
 ##############################################################################################
 ## ASSIGN MATERIAL TO LAYER
@@ -130,7 +128,9 @@ def assign_material(material_name, layer_name):
     all_layers = rs.LayerNames()
     
     if layer_name in all_layers:
+        print(layer_name)
         objs = rs.ObjectsByLayer(layer_name)
+        print(objs)
         if objs:
             rs.SelectObjects(objs)
     
