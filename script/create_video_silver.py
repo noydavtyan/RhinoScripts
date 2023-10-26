@@ -8,7 +8,8 @@ import functions as functions
 def main():
     
     #################################################
-    
+    rs.CurrentView("Perspective")
+    rs.Command("_SetView _World _Perspective")
     rs.UnselectAllObjects()
     rs.Command("_ZEA")
     

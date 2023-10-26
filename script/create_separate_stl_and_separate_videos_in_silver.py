@@ -7,6 +7,8 @@ import os
 
         
 def main():
+    rs.CurrentView("Perspective")
+    rs.Command("_SetView _World _Perspective")
     rs.UnselectAllObjects()
     rs.Command("_ZEA")
     all_layers = rs.LayerNames()
