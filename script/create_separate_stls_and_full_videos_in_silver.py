@@ -4,15 +4,14 @@ import scriptcontext as sc
 import subprocess
 import functions as functions
 
-
+        
 def main():
-    
-    #################################################
-    
     rs.UnselectAllObjects()
     rs.Command("_ZEA")
-    
-    ##########################################
+    all_layers = rs.LayerNames()
+    for i in range(30):
+        if str(i) in all_layers:
+            functions.export_current_to_stl(i)
 
     functions.remove_all_materials()
 
@@ -22,11 +21,11 @@ def main():
     rs.Command("_ZEA")
     rs.Command("-DocumentProperties R B B 105,105,105 enter enter enter", False)
 
-    functions.select_objects_not_in_gem_layers_and_assign_material("Gold")
-    functions.select_objects_in_gem_layers_and_assign_material("Diamond")
+    functions.select_objects_not_in_gem_layers_and_assign_material("Silver")
+    functions.select_objects_in_gem_layers_and_assign_material("Ruby")
     
     rs.Command("_ZEA")
- 
+
     rs.Redraw()
     
     #######################################
@@ -37,9 +36,8 @@ def main():
     if captures_directory:
         functions.create_video_captures(captures_directory)
         
-    ########################################
-    
 
+    
 if __name__ == '__main__':
     main()
 
@@ -59,3 +57,6 @@ if __name__ == '__main__':
 
     sc.doc.Modified = False
     rs.Command("_Exit")
+
+
+

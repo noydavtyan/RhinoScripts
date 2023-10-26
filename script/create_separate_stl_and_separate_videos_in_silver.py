@@ -14,6 +14,15 @@ def main():
             functions.export_current_to_stl(i)
             functions.select_objects_in_layer(str(i))
             rs.Command("_Isolate")
+
+            functions.remove_all_materials()
+
+            # Create materials
+    functions.create_pbr_material(rh.Display.Color4f.FromArgb(255, 1, 1, 1), "Silver")
+    functions.create_pbr_material(rh.Display.Color4f.FromArgb(255, 1, 0.749, 0.749), "Ruby", opacity=0)
+            rs.Command("_ZEA")
+            rs.Command("-DocumentProperties R B B 105,105,105 enter enter enter", False)
+
             functions.select_objects_not_in_gem_layers_and_assign_material("Silver")
             functions.select_objects_in_gem_layers_and_assign_material("Ruby")
             
@@ -30,6 +39,7 @@ def main():
                 functions.create_video_captures(captures_directory)
                 
             ########################################
+            functions.select_objects_in_layer(str(i))
             rs.Command("_Unisolate")
 
     
