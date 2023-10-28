@@ -54,7 +54,7 @@ def create_video(captures_directory, output_path):
 
 def main():
     # Get current directory from the argument passed from the .bat file
-    current_directory = sys.argv[1].replace("\\", "/").replace("\"","")
+    current_directory = sys.argv[1].replace("\\\\", "/").replace("\\", "/").replace("\"","")
     file_name = sys.argv[2]
     captures_folder = sys.argv[3]
     captures_directory = os.path.join(current_directory, captures_folder)

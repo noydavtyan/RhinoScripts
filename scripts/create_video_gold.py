@@ -58,7 +58,6 @@ if __name__ == '__main__':
     # This will suppress the console window
     startupinfo = subprocess.STARTUPINFO()
     startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
-
     subprocess.Popen(command, startupinfo=startupinfo)
 
     sc.doc.Modified = False
