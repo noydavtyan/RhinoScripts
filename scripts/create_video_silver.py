@@ -3,6 +3,7 @@ import Rhino as rh
 import scriptcontext as sc
 import subprocess
 import functions as functions
+import os
 
 
 def main():
@@ -46,9 +47,11 @@ def main():
 if __name__ == '__main__':
     main()
 
-    # Get the path of the current script (as a replacement for the .bat file path)
     base_path = rs.DocumentPath()
-    doc_name = rs.DocumentName()
+    doc_name_with_extension = rs.DocumentName()
+
+    # Split the name and extension, and take just the name part
+    doc_name = os.path.splitext(doc_name_with_extension)[0]
     # Command to run the external Python script to add logos to all the images in the Captures folder
     command = ['C:/Users/noyda/AppData/Local/Programs/Python/Python37/python.exe', 
             'G:/Meine Ablage/3D Modelling/#s9hU_All_logos/add_logo_to_images.py',
