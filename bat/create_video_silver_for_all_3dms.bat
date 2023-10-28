@@ -2,7 +2,7 @@
 set "PYTHON_SCRIPT=C:\Users\noyda\AppData\Roaming\McNeel\Rhinoceros\7.0\scripts\RhinoScripts\scripts\create_video_silver.py"
 
 :: Set the countdown duration in seconds (e.g., 5 seconds)
-set "COUNTDOWN_DURATION=60"
+set "COUNTDOWN_DURATION=120"
 
 :: Iterate over each .3dm file in the current directory
 for %%i in (*.3dm) do (

@@ -31,10 +31,12 @@ def export_current_to_stl(stl_number=None):
     if stl_number is None:
         stl_filename = os.path.join(directory, os.path.splitext(doc_name)[0] + ".stl")
     else:
+        select_objects_in_layer(str(stl_number))
+        rs.Command("_Isolate")
         stl_filename = os.path.join(directory, os.path.splitext(doc_name)[0] + '_' + str(stl_number) + ".stl")
-    
+
     layers_to_unhide = []
-    for prefix in ["Gem", "CADRAWS", "Cutting"]:
+    for prefix in ["Gem", "CADRAWS", "Cutting", "Rend", "rend", "REND"]:
         layers_to_unhide.extend(toggle_layers_with_prefix(prefix))
 
     rs.SelectObjects(rs.AllObjects())
@@ -48,6 +50,11 @@ def export_current_to_stl(stl_number=None):
     
     if os.path.exists(stl_filename):
         os.startfile(stl_filename)
+
+    if stl_number is None:
+        select_objects_in_layer(str(stl_number))
+        rs.Command("_Isolate")
+
         
 ##############################################################################################
 ## DELETE MATERIALS
