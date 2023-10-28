@@ -43,6 +43,11 @@ def export_current_to_stl(stl_number=None):
     rs.Command('-_Export "{}" _ExportFileAs=_Binary _Enter _Enter'.format(stl_filename))
     rs.UnselectAllObjects()
 
+    if stl_number is not None:
+        select_objects_in_layer(str(stl_number))
+        rs.Command("_Unisolate")
+        rs.UnselectAllObjects()
+
     for layer in layers_to_unhide:
         rs.LayerVisible(layer, True)
     
@@ -51,11 +56,7 @@ def export_current_to_stl(stl_number=None):
     if os.path.exists(stl_filename):
         os.startfile(stl_filename)
 
-    if stl_number is None:
-        select_objects_in_layer(str(stl_number))
-        rs.Command("_Isolate")
 
-        
 ##############################################################################################
 ## DELETE MATERIALS
 def remove_all_materials():

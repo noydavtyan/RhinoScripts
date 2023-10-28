@@ -10,3 +10,6 @@ To Do: Ete tarber stlneri mej en uremn petqa rendi ktorner@ urish linen
 Amen inch petqa partadir motik linen irar vor zean ashxati
 
 G:/Meine Ablage/3D Modelling/#s9hU_All_logos papki mej
+
+
+To Do: Layeri anun@ 1_bottom xosqi, et depqum klini anun@ V1_bottom voch te V1_1
