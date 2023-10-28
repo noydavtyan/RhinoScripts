@@ -3,6 +3,7 @@ import Rhino as rh
 import scriptcontext as sc
 import subprocess
 import functions as functions
+import os
 
 
 def main():
