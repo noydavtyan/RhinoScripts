@@ -19,6 +19,6 @@ if "%FILEPATH%"=="False" (
 )
 
 :: Run Rhino with the selected file and execute the Python script
-start "" "C:\Program Files\Rhino 7\System\Rhino.exe" "%FILEPATH%" /runscript="_-RunPythonScript C:\Users\noyda\AppData\Roaming\McNeel\Rhinoceros\7.0\scripts\create_video_gold.py"
+start "" "C:\Program Files\Rhino 7\System\Rhino.exe" "%FILEPATH%" /runscript="_-RunPythonScript C:\Users\noyda\AppData\Roaming\McNeel\Rhinoceros\7.0\scripts\RhinoScripts\scripts\create_video_gold.py"
 
 endlocal
