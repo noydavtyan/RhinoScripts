@@ -24,6 +24,6 @@ if __name__ == '__main__':
     main()
 
     sc.doc.Modified = False
-    rs.Command("_Exit")
+    #rs.Command("_Exit")
 
 

@@ -57,7 +57,6 @@ def export_current_to_stl(layer_name=None, i=None):
         rs.LayerVisible(layer, True)
     
     rs.Command("_ZEA")
-    
     if os.path.exists(stl_filename):
         os.startfile(stl_filename)
 
