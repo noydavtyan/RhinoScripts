@@ -13,10 +13,17 @@ def main():
     rs.Command("_ZEA")
     all_layers = rs.LayerNames()
     for i in range(30):
+        layer_name = None
         if str(i) in all_layers:
-            functions.select_objects_in_layer(str(i))
+            layer_name = str(i)
+        # Check if there's a layer that starts with 'i + _'
+        elif any(item.startswith(str(i) + '_') for item in all_layers):
+            layer_name = next(item for item in all_layers if item.startswith(str(i) + '_'))
+
+        if layer_name:
+            functions.select_objects_in_layer(layer_name)
             rs.Command("_Isolate")
-            functions.export_current_to_stl(i)
+            functions.export_current_to_stl(layer_name, str(i))
 
             functions.remove_all_materials()
 
@@ -37,12 +44,12 @@ def main():
             
             rs.ViewDisplayMode("Perspective", "Rendered")
             rs.CurrentView("Perspective")
-            captures_directory = functions.create_directory("Captures" + str(i))
+            captures_directory = functions.create_directory("Captures" + '_' + layer_name)
             if captures_directory:
                 functions.create_video_captures(captures_directory)
                 
             ########################################
-            functions.select_objects_in_layer(str(i))
+            functions.select_objects_in_layer(layer_name)
             rs.Command("_Unisolate")
             rs.UnselectAllObjects()
 
@@ -56,7 +63,7 @@ def main():
             # Command to run the external Python script to add logos to all the images in the Captures folder
             command = ['C:/Users/noyda/AppData/Local/Programs/Python/Python37/python.exe', 
                     'G:/Meine Ablage/3D Modelling/#s9hU_All_logos/add_logo_to_images.py',
-                    base_path, doc_name + '_' + str(i), "Captures" + str(i)]
+                    base_path, doc_name + '_' + layer_name, "Captures" + '_' + layer_name]
 
             # This will suppress the console window
             startupinfo = subprocess.STARTUPINFO()

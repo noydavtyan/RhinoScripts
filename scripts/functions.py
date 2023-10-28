@@ -19,21 +19,26 @@ def toggle_layers_with_prefix(prefix, action="hide"):
 
 ###########################################################################################
 ## CREATE STL
-def export_current_to_stl(stl_number=None):
+def export_current_to_stl(layer_name=None, i=None):
     """Export current Rhino doc to STL."""
     doc_path, doc_name = rs.DocumentPath(), rs.DocumentName()
     
     if not (doc_path and doc_name):
         print("Please save your Rhino file first.")
         return
-
     directory = os.path.dirname(doc_path)
-    if stl_number is None:
+    if layer_name is None:
         stl_filename = os.path.join(directory, os.path.splitext(doc_name)[0] + ".stl")
     else:
-        select_objects_in_layer(str(stl_number))
+        select_objects_in_layer(str(layer_name))
         rs.Command("_Isolate")
-        stl_filename = os.path.join(directory, os.path.splitext(doc_name)[0] + '_' + str(stl_number) + ".stl")
+        parts = layer_name.split(i + '_')
+        stl_postfix = parts[1] if len(parts) > 1 else None
+        if stl_postfix:
+            stl_filename = os.path.join(directory, os.path.splitext(doc_name)[0] + '_' + stl_postfix + ".stl")
+
+        else:
+            stl_filename = os.path.join(directory, os.path.splitext(doc_name)[0] + '_' + i + ".stl")
 
     layers_to_unhide = []
     for prefix in ["Gem", "CADRAWS", "Cutting", "Rend", "rend", "REND"]:
@@ -43,8 +48,8 @@ def export_current_to_stl(stl_number=None):
     rs.Command('-_Export "{}" _ExportFileAs=_Binary _Enter _Enter'.format(stl_filename))
     rs.UnselectAllObjects()
 
-    if stl_number is not None:
-        select_objects_in_layer(str(stl_number))
+    if layer_name is not None:
+        select_objects_in_layer(str(layer_name))
         rs.Command("_Unisolate")
         rs.UnselectAllObjects()
 
