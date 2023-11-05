@@ -58,7 +58,7 @@ if __name__ == '__main__':
     # Split the name and extension, and take just the name part
     doc_name = os.path.splitext(doc_name_with_extension)[0]
     # Command to run the external Python script to add logos to all the images in the Captures folder
-    command = ['C:/Users/noyda/AppData/Local/Programs/Python/Python37/python.exe', 
+    command = ['C:/Program Files/Python/Python37/python.exe', 
             'G:/Meine Ablage/3D Modelling/#s9hU_All_logos/add_logo_to_images.py',
             base_path, doc_name, "Captures"]
 

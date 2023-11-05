@@ -60,6 +60,26 @@ def export_current_to_stl(layer_name=None, i=None):
     if os.path.exists(stl_filename):
         os.startfile(stl_filename)
 
+###########################################################################################
+## EXPORT STL BY NAME
+def export_to_stl(file_name):
+    """Export current Rhino doc to STL."""
+    doc_path = rs.DocumentPath()
+    rs.UnselectAllObjects()
+    directory = os.path.dirname(doc_path)
+    stl_filename = os.path.join(directory, file_name + ".stl")
+
+    layers_to_unhide = []
+    for prefix in ["Gem", "CADRAWS", "Cutting", "Rend", "rend", "REND"]:
+        layers_to_unhide.extend(toggle_layers_with_prefix(prefix))
+
+    rs.SelectObjects(rs.AllObjects())
+    rs.Command('-_Export "{}" _ExportFileAs=_Binary _Enter _Enter'.format(stl_filename))
+    rs.UnselectAllObjects()
+
+    for layer in layers_to_unhide:
+        rs.LayerVisible(layer, True)
+
 
 ##############################################################################################
 ## DELETE MATERIALS
