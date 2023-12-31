@@ -1,5 +1,13 @@
+@echo off
+setlocal
+
+:: Read key-value pairs from config.txt
+for /f "tokens=1* delims==" %%a in (config.txt) do (
+    set %%a=%%b
+)
+
 :: Get the path to the Python script
-set "PYTHON_SCRIPT=C:\Users\noyda\AppData\Roaming\McNeel\Rhinoceros\7.0\scripts\RhinoScripts\scripts\create_video_silver.py"
+set "PYTHON_SCRIPT=%USER_PATH%\AppData\Roaming\McNeel\Rhinoceros\7.0\scripts\RhinoScripts\scripts\create_video_silver.py"
 
 :: Set the countdown duration in seconds (e.g., 5 seconds)
 set "COUNTDOWN_DURATION=120"
@@ -15,7 +23,7 @@ for %%i in (*.3dm) do (
     )
 
     :: Start Rhino and run the Python script
-    start "" "C:\Program Files\Rhino 7\System\Rhino.exe" "%%~fi" /runscript="_-RunPythonScript ""%PYTHON_SCRIPT%"""
+    start "" "%RHINO_PATH%" "%%~fi" /runscript="_-RunPythonScript ""%PYTHON_SCRIPT%"""
 )
 
 endlocal
