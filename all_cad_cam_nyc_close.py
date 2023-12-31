@@ -3,6 +3,7 @@ import Rhino as rh
 import Rhino.Render as rr
 import Rhino.DocObjects as rd
 import scriptcontext as sc
+import subprocess
 import os
 
 def toggle_layers_with_prefix(prefix, action="hide"):
@@ -157,7 +158,7 @@ def main():
     rs.UnselectAllObjects()
     rs.Command("_ZEA")
     
-    export_current_to_stl()
+    #export_current_to_stl()
     
     ##########################################
 
@@ -170,6 +171,9 @@ def main():
     create_pbr_material(rh.Display.Color4f.FromArgb(255, 1, 0.749, 0.749), "Ruby", opacity=0)
     rs.Command("_ZEA")
     rs.Command("-DocumentProperties R B B 105,105,105 enter enter enter", False)
+    rs.Command("-DocumentProperties R B U BottomColor 105,105,105 Enter Enter Enter", False)
+    rs.Command("-DocumentProperties R B U BottomColor 105,105,105 Enter Enter Enter", False)
+    rs.Command("-ViewCaptureToFile W 1024 H 567 Scale 1 Enter", False)
 
     select_objects_not_in_gem_layers_and_assign_material("Gold")
     select_objects_in_gem_layers_and_assign_material("Diamond")
@@ -189,5 +193,23 @@ def main():
 
 if __name__ == '__main__':
     main()
+    
+    base_path = rs.DocumentPath()
+    doc_name_with_extension = rs.DocumentName()
+
+    # Split the name and extension, and take just the name part
+    doc_name = os.path.splitext(doc_name_with_extension)[0]
+    # Command to run the external Python script to add logos to all the images in the Captures folder
+    command = ['C:/Users/noyda/AppData/Local/Programs/Python/Python37/python.exe', 
+            'G:/Meine Ablage/3D Modelling/#s9hU_All_logos/create_video_cad_cam.py',
+            base_path, doc_name, "Captures"]
+
+    # This will suppress the console window
+    startupinfo = subprocess.STARTUPINFO()
+    startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
+
+    subprocess.Popen(command, startupinfo=startupinfo)
+
+    
     sc.doc.Modified = False
-    rs.Command("_Exit")
+    #rs.Command("_Exit")

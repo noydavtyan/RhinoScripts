@@ -25,7 +25,9 @@ def main():
     functions.create_pbr_material(rh.Display.Color4f.FromArgb(255, 1, 0.749, 0.749), "Ruby", opacity=0)
     rs.Command("_ZEA")
     rs.Command("-DocumentProperties R B B 105,105,105 enter enter enter", False)
-
+    rs.Command("-DocumentProperties R B U BottomColor 105,105,105 Enter Enter Enter", False)
+    rs.Command("-DocumentProperties R B U BottomColor 105,105,105 Enter Enter Enter", False)
+    rs.Command("-ViewCaptureToFile W 1024 H 567 Scale 1 Enter", False)
     functions.select_objects_not_in_gem_layers_and_assign_material("Silver")
     functions.select_objects_in_gem_layers_and_assign_material("Ruby")
     

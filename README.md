@@ -13,3 +13,9 @@ G:/Meine Ablage/3D Modelling/#s9hU_All_logos papki mej
 
 
 To Do: Layeri anun@ 1_bottom xosqi, et depqum klini anun@ V1_bottom voch te V1_1
+
+To Do. Ete mi qani hat en u unen gem, mi ban anel. Xosqi sarqel 1_Gem
+
+Papkequm save separati depqum
+
+scale rings from given
