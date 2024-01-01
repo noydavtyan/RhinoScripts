@@ -240,3 +240,17 @@ def create_video_captures(directory_base):
         rs.RotateView(viewPort, 0, 2)
         rh.RhinoApp.Wait()
         capture_current_view(directory_base, 180 + i)
+
+##################################################################################################
+## READING CONFIG FOR GET PYTHON_PATH
+def get_python_path():
+    """Read the configuration file and return the Python path."""
+
+    base_path = rs.DocumentPath()
+
+    bat_config_path = os.environ.get('BAT_CONFIG_PATH')
+    with open(bat_config_path, 'r') as file:
+        for line in file:
+            if line.startswith("PYTHON_PATH="):
+                return line.strip().split('=')[1]
+    return None

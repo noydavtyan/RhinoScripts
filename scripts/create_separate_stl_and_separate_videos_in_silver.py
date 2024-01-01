@@ -56,8 +56,10 @@ def main():
 
             # Split the name and extension, and take just the name part
             doc_name = os.path.splitext(doc_name_with_extension)[0]
+
+            python_path = functions.get_python_path()
             # Command to run the external Python script to add logos to all the images in the Captures folder
-            command = ['C:/Users/noyda/AppData/Local/Programs/Python/Python37/python.exe',
+            command = [python_path,
                     'G:/Meine Ablage/3D Modelling/#s9hU_All_logos/add_logo_to_images.py',
                     base_path, doc_name + layer_postfix, "Captures" + layer_postfix]
 
