@@ -242,7 +242,7 @@ def create_video_captures(directory_base):
         capture_current_view(directory_base, 180 + i)
 
 ##################################################################################################
-## READING CONFIG FOR GET PYTHON_PATH
+## READING CONFIG TO GET PYTHON_PATH
 def get_python_path():
     """Read the configuration file and return the Python path."""
 
@@ -252,5 +252,19 @@ def get_python_path():
     with open(bat_config_path, 'r') as file:
         for line in file:
             if line.startswith("PYTHON_PATH="):
+                return line.strip().split('=')[1]
+    return None
+
+##################################################################################################
+## READING CONFIG TO GET CREATE_VIDEO_WITH_LOGO_PATH
+def get_create_video_python_path():
+    """Read the configuration file and return the Python path."""
+
+    base_path = rs.DocumentPath()
+
+    bat_config_path = os.environ.get('BAT_CONFIG_PATH')
+    with open(bat_config_path, 'r') as file:
+        for line in file:
+            if line.startswith("CREATE_VIDEO_WITH_LOGO_PATH="):
                 return line.strip().split('=')[1]
     return None

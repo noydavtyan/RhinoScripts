@@ -57,9 +57,10 @@ def main():
             doc_name = os.path.splitext(doc_name_with_extension)[0]
 
             python_path = functions.get_python_path()
+            create_video_python_path = functions.get_create_video_python_path()
             # Command to run the external Python script to add logos to all the images in the Captures folder
             command = [python_path,
-                    'G:/Meine Ablage/3D Modelling/#s9hU_All_logos/add_logo_to_images.py',
+                    create_video_python_path,
                     base_path, doc_name + layer_postfix, "Captures" + layer_postfix]
 
             # This will suppress the console window
