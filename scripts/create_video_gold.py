@@ -57,7 +57,7 @@ if __name__ == '__main__':
     create_video_python_path = functions.get_create_video_python_file_path()
     # Command to run the external Python script to add logos to all the images in the Captures folder
     command = [python_path,
-            'C:/Users/noyda/AppData/Roaming/McNeel/Rhinoceros/7.0/scripts/RhinoScripts/scripts/create_video_with_logo.py',
+            create_video_python_path,
             base_path, doc_name, "Captures"]
 
     # This will suppress the console window
