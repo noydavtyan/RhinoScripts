@@ -56,7 +56,7 @@ if __name__ == '__main__':
     doc_name = os.path.splitext(doc_name_with_extension)[0]
 
     python_path = functions.get_python_path()
-    create_video_python_path = functions.get_create_video_python_path()
+    create_video_python_path = functions.get_create_video_python_file_path()
     # Command to run the external Python script to add logos to all the images in the Captures folder
     command = [python_path,
             create_video_python_path,

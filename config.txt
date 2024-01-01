@@ -3,4 +3,5 @@ RHINO_PATH=C:\Program Files\Rhino 7\System\Rhino.exe
 OTHER_BAT_RELATIVE_DIRECTORY=..\..\..\*.3dm
 BAT_RELATIVE_DIRECTORY=..\..\*.3dm
 PYTHON_PATH=C:/Program Files/Python/Python37/python.exe
-CREATE_VIDEO_WITH_LOGO_PATH=G:/Meine Ablage/3D Modelling/#s9hU_All_logos/create_video_with_logo.py
+CREATE_VIDEO_WITH_LOGO_PATH=C:/Users/noyda/AppData/Roaming/McNeel/Rhinoceros/7.0/scripts/RhinoScripts/scripts/create_video_with_logo.py
+LOGO_PATH=../bandicam_logo.png

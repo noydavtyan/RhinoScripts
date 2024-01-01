@@ -257,7 +257,7 @@ def get_python_path():
 
 ##################################################################################################
 ## READING CONFIG TO GET CREATE_VIDEO_WITH_LOGO_PATH
-def get_create_video_python_path():
+def get_create_video_python_file_path():
     """Read the configuration file and return the Python path."""
 
     base_path = rs.DocumentPath()
@@ -266,5 +266,19 @@ def get_create_video_python_path():
     with open(bat_config_path, 'r') as file:
         for line in file:
             if line.startswith("CREATE_VIDEO_WITH_LOGO_PATH="):
+                return line.strip().split('=')[1]
+    return None
+
+##################################################################################################
+## READING CONFIG TO GET LOGO_PATH
+def get_logo_path():
+    """Read the configuration file and return the Python path."""
+
+    base_path = rs.DocumentPath()
+
+    bat_config_path = os.environ.get('BAT_CONFIG_PATH')
+    with open(bat_config_path, 'r') as file:
+        for line in file:
+            if line.startswith("LOGO_PATH="):
                 return line.strip().split('=')[1]
     return None
