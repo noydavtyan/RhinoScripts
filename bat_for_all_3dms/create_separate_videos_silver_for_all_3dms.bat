@@ -7,7 +7,7 @@ for /f "tokens=1* delims==" %%a in (%BAT_CONFIG_PATH%) do (
 )
 
 :: Get the path to the Python script
-set "PYTHON_SCRIPT=%USER_PATH%\AppData\Roaming\McNeel\Rhinoceros\7.0\scripts\RhinoScripts\scripts\create_separate_stls_and_full_videos_in_gold.py"
+set "PYTHON_SCRIPT=%USER_PATH%\AppData\Roaming\McNeel\Rhinoceros\7.0\scripts\RhinoScripts\scripts\create_separate_videos_silver.py"
 
 :: Set the countdown duration in seconds (e.g., 5 seconds)
 set "COUNTDOWN_DURATION=120"

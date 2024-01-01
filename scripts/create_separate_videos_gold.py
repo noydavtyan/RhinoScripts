@@ -5,7 +5,7 @@ import subprocess
 import functions as functions
 import os
 
-        
+
 def main():
     rs.CurrentView("Perspective")
     rs.Command("_SetView _World _Perspective")
@@ -17,8 +17,7 @@ def main():
         matching_layer_names = functions.select_all_objects_starting_with_number(i)
         rs.UnselectAllObjects()
         if len(matching_layer_names):
-            for layer_name in matching_layer_names:
-                functions.export_selected_layer_as_stl(layer_name, i)
+            layer_name = matching_layer_names[0]
 
             functions.select_all_objects_starting_with_number(i)
             rs.Command("_Isolate")
@@ -33,16 +32,16 @@ def main():
             rs.Command("-DocumentProperties R B U BottomColor 105,105,105 Enter Enter Enter", False)
             functions.select_objects_not_in_gem_layers_and_assign_material("Gold")
             functions.select_objects_in_gem_layers_and_assign_material("Diamond")
-            
+
             rs.Command("_ZEA")
-        
+
             rs.Redraw()
-            
+
             #######################################
 
             parts = layer_name.split(str(i) + '_')
             layer_postfix = ('_' + parts[1]) if len(parts) > 1 else None
-            
+
             rs.ViewDisplayMode("Perspective", "Rendered")
             rs.CurrentView("Perspective")
             captures_directory = functions.create_directory("Captures" + layer_postfix)

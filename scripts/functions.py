@@ -19,7 +19,7 @@ def toggle_layers_with_prefix(prefix, action="hide"):
 
 ###########################################################################################
 ## CREATE STL
-def export_current_to_stl(layer_name=None, i=None):
+def export_to_stl():
     """Export current Rhino doc to STL."""
     doc_path, doc_name = rs.DocumentPath(), rs.DocumentName()
     
@@ -27,18 +27,8 @@ def export_current_to_stl(layer_name=None, i=None):
         print("Please save your Rhino file first.")
         return
     directory = os.path.dirname(doc_path)
-    if layer_name is None:
-        stl_filename = os.path.join(directory, os.path.splitext(doc_name)[0] + ".stl")
-    else:
-        select_objects_in_layer(str(layer_name))
-        rs.Command("_Isolate")
-        parts = layer_name.split(i + '_')
-        stl_postfix = parts[1] if len(parts) > 1 else None
-        if stl_postfix:
-            stl_filename = os.path.join(directory, os.path.splitext(doc_name)[0] + '_' + stl_postfix + ".stl")
 
-        else:
-            stl_filename = os.path.join(directory, os.path.splitext(doc_name)[0] + '_' + i + ".stl")
+    stl_filename = os.path.join(directory, os.path.splitext(doc_name)[0] + ".stl")
 
     layers_to_unhide = []
     for prefix in ["Gem", "CADRAWS", "Cutting", "Rend", "rend", "REND"]:
@@ -48,11 +38,6 @@ def export_current_to_stl(layer_name=None, i=None):
     rs.Command('-_Export "{}" _ExportFileAs=_Binary _Enter _Enter'.format(stl_filename))
     rs.UnselectAllObjects()
 
-    if layer_name is not None:
-        select_objects_in_layer(str(layer_name))
-        rs.Command("_Unisolate")
-        rs.UnselectAllObjects()
-
     for layer in layers_to_unhide:
         rs.LayerVisible(layer, True)
     
@@ -61,8 +46,45 @@ def export_current_to_stl(layer_name=None, i=None):
         os.startfile(stl_filename)
 
 ###########################################################################################
+## CREATE STL FROM SELECTED OBJECTS
+def export_selected_layer_as_stl(layer_name=None, i=None):
+    """Export current Rhino doc to STL."""
+    doc_path, doc_name = rs.DocumentPath(), rs.DocumentName()
+
+    if not (doc_path and doc_name):
+        print("Please save your Rhino file first.")
+        return
+    directory = os.path.dirname(doc_path)
+    print(layer_name)
+    any_selected_objects = select_objects_in_layer(layer_name)
+    if any_selected_objects:
+        rs.Command("_Isolate")
+        parts = layer_name.split(str(i) + '_')
+        stl_postfix = parts[1] if len(parts) > 1 else None
+        if stl_postfix:
+            stl_filename = os.path.join(directory, os.path.splitext(doc_name)[0] + '_' + stl_postfix + ".stl")
+        else:
+            stl_filename = os.path.join(directory, os.path.splitext(doc_name)[0] + '_' + str(i) + ".stl")
+
+        layers_to_unhide = []
+        for prefix in ["Gem", "CADRAWS", "Cutting", "Rend", "rend", "REND"]:
+            layers_to_unhide.extend(toggle_layers_with_prefix(prefix))
+
+        rs.SelectObjects(rs.AllObjects())
+        rs.Command('-_Export "{}" _ExportFileAs=_Binary _Enter _Enter'.format(stl_filename))
+        rs.Command("_Unisolate")
+        rs.UnselectAllObjects()
+
+        for layer in layers_to_unhide:
+            rs.LayerVisible(layer, True)
+
+        rs.Command("_ZEA")
+        if os.path.exists(stl_filename):
+            os.startfile(stl_filename)
+
+###########################################################################################
 ## EXPORT STL BY NAME
-def export_to_stl(file_name):
+def export_to_stl_by_file_name(file_name):
     """Export current Rhino doc to STL."""
     doc_path = rs.DocumentPath()
     rs.UnselectAllObjects()
@@ -143,14 +165,25 @@ def select_objects_not_in_gem_layers_and_assign_material(material_name, layer_na
     rs.UnselectAllObjects()
 
 ##############################################################################################
-## SELECT OBJECTS THAT ARE NOT IN LAYER NAMES 
+## SELECTS OBJECTS IN GIVEN LAYER
 def select_objects_in_layer(layer_name):
     all_layers = rs.LayerNames()
-    
+    any_objects = 0
     if layer_name in all_layers:
         objs = rs.ObjectsByLayer(layer_name)
         if objs:
             rs.SelectObjects(objs)
+            any_objects = 1
+    return any_objects
+
+##############################################################################################
+## SELECT ALL THE OBJECTS THAT START WITH NUMBER IN FRONT
+def select_all_objects_starting_with_number(i):
+    all_layers = rs.LayerNames()
+    matching_layer_names = [item for item in all_layers if item.startswith(str(i) + '_')]
+    for layer_name in matching_layer_names:
+        select_objects_in_layer(layer_name)
+    return matching_layer_names
 
 ##############################################################################################
 ## ASSIGN MATERIAL TO LAYER

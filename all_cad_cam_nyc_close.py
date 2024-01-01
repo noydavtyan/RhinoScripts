@@ -16,7 +16,7 @@ def toggle_layers_with_prefix(prefix, action="hide"):
         [rs.LayerVisible(l, True) for l in layers]
         return []
 
-def export_current_to_stl():
+def export_to_stl():
     """Export current Rhino doc to STL."""
     doc_path, doc_name = rs.DocumentPath(), rs.DocumentName()
     
@@ -158,7 +158,7 @@ def main():
     rs.UnselectAllObjects()
     rs.Command("_ZEA")
     
-    #export_current_to_stl()
+    #export_to_stl()
     
     ##########################################
 

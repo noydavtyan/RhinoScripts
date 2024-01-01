@@ -14,7 +14,7 @@ def main():
     rs.UnselectAllObjects()
     rs.Command("_ZEA")
     
-    #export_current_to_stl()
+    #export_to_stl()
     
     ##########################################
 

@@ -24,6 +24,6 @@ if "%FILEPATH%"=="False" (
 )
 
 :: Run Rhino with the selected file and execute the Python script
-start "" "%RHINO_PATH%" "%FILEPATH%" /runscript="_-RunPythonScript %USER_PATH%\AppData\Roaming\McNeel\Rhinoceros\7.0\scripts\RhinoScripts\scripts\create_separate_stls_and_full_videos_in_silver.py"
+start "" "%RHINO_PATH%" "%FILEPATH%" /runscript="_-RunPythonScript %USER_PATH%\AppData\Roaming\McNeel\Rhinoceros\7.0\scripts\RhinoScripts\scripts\create_separate_videos_gold.py"
 
 endlocal

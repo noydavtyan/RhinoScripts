@@ -6,24 +6,19 @@ import scriptcontext as sc
 def main():
     rs.UnselectAllObjects()
     rs.Command("_ZEA")
-    all_layers = rs.LayerNames()
+
     for i in range(30):
-        layer_name = None
-        if str(i) in all_layers:
-            layer_name = str(i)
-        # Check if there's a layer that starts with 'i + _'
-        elif any(item.startswith(str(i) + '_') for item in all_layers):
-            layer_name = next(item for item in all_layers if item.startswith(str(i) + '_'))
-        
-        if layer_name:
-            functions.export_current_to_stl(layer_name, str(i))
-    
-    
+        rs.Command("_Unisolate")
+        matching_layer_names = functions.select_all_objects_starting_with_number(i)
+        rs.UnselectAllObjects()
+        if len(matching_layer_names):
+            for layer_name in matching_layer_names:
+                functions.export_selected_layer_as_stl(layer_name, i)
 
 if __name__ == '__main__':
     main()
 
     sc.doc.Modified = False
-    #rs.Command("_Exit")
+    rs.Command("_Exit")
 
 
