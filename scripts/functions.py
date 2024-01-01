@@ -246,8 +246,6 @@ def create_video_captures(directory_base):
 def get_python_path():
     """Read the configuration file and return the Python path."""
 
-    base_path = rs.DocumentPath()
-
     bat_config_path = os.environ.get('BAT_CONFIG_PATH')
     with open(bat_config_path, 'r') as file:
         for line in file:
@@ -259,8 +257,6 @@ def get_python_path():
 ## READING CONFIG TO GET CREATE_VIDEO_WITH_LOGO_PATH
 def get_create_video_python_file_path():
     """Read the configuration file and return the Python path."""
-
-    base_path = rs.DocumentPath()
 
     bat_config_path = os.environ.get('BAT_CONFIG_PATH')
     with open(bat_config_path, 'r') as file:

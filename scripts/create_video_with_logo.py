@@ -4,6 +4,17 @@ import cv2
 import shutil
 from PIL import Image
 
+## READING CONFIG TO GET LOGO_PATH
+def get_logo_path():
+    """Read the configuration file and return the Python path."""
+
+    bat_config_path = os.environ.get('BAT_CONFIG_PATH')
+    with open(bat_config_path, 'r') as file:
+        for line in file:
+            if line.startswith("LOGO_PATH="):
+                return line.strip().split('=')[1]
+    return None
+
 def add_logo_to_image(image_path, logo_path):
     # Open the image and the logo
     image = Image.open(image_path)
@@ -59,7 +70,7 @@ def main():
     captures_folder = sys.argv[3]
     captures_directory = os.path.join(current_directory, captures_folder)
     # Path to the logo
-    logo_path = "G:/Meine Ablage/3D Modelling/#s9hU_All_logos/bandicam_logo.png"
+    logo_path = get_logo_path()
 
     for root, dirs, files in os.walk(captures_directory):
         for file in files:
