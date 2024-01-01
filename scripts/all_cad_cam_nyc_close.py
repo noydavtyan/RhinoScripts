@@ -30,8 +30,9 @@ def set_display_mode_for_all_views(mode):
 
 def capture_current_view(directory, view_name, width=1118, height=627):
     """Captures the current view and saves it to the specified directory."""
+    rs.Command("_ZEA")
     capture_path = os.path.join(directory, "{}.png".format(view_name))
-    rs.Command('-ViewCaptureToFile Width={} Height={} "{}" Enter'.format(capture_path, width, height), False)
+    rs.Command('-ViewCaptureToFile W 1024 H 567 Scale 2 "{}" Enter'.format(capture_path), False)
 
 def capture_all_views(directory_base):
     """Captures all views and saves them to the specified directory."""
