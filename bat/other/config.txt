@@ -1,2 +1,0 @@
-USER_PATH=C:\Users\noyda
-RHINO_PATH=C:\Program Files\Rhino 7\System\Rhino.exe

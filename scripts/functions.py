@@ -145,7 +145,6 @@ def select_objects_not_in_gem_layers_and_assign_material(material_name, layer_na
 ##############################################################################################
 ## SELECT OBJECTS THAT ARE NOT IN LAYER NAMES 
 def select_objects_in_layer(layer_name):
-    """Select objects not in given layers and assign a specified material."""
     all_layers = rs.LayerNames()
     
     if layer_name in all_layers:

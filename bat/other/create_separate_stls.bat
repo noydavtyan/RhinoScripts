@@ -1,11 +1,16 @@
 @echo off
 setlocal
 
+:: Read key-value pairs from config.txt
+for /f "tokens=1* delims==" %%a in (%BAT_CONFIG_PATH%) do (
+    set %%a=%%b
+)
+
 :: Count the number of .3dm files in the parent directory
-for /f %%A in ('dir /b ..\..\..\*.3dm 2^>nul ^| find /c /v ""') do set count=%%A
+for /f %%A in ('dir /b %OTHER_BAT_RELATIVE_DIRECTORY% 2^>nul ^| find /c /v ""') do set count=%%A
 
 :: If there's exactly one .3dm file in the parent directory, set FILEPATH to its name
-if "%count%"=="1" for %%i in (..\..\..\*.3dm) do set "FILEPATH=%%~fi"
+if "%count%"=="1" for %%i in (%OTHER_BAT_RELATIVE_DIRECTORY%) do set "FILEPATH=%%~fi"
 
 :: If there's none or more than one .3dm file, prompt the user to pick a file
 if not defined FILEPATH (

@@ -1,2 +1,4 @@
 USER_PATH=C:\Users\noyda
 RHINO_PATH=C:\Program Files\Rhino 7\System\Rhino.exe
+OTHER_BAT_RELATIVE_DIRECTORY=..\..\..\*.3dm
+BAT_RELATIVE_DIRECTORY=..\..\*.3dm

@@ -2,7 +2,7 @@
 setlocal
 
 :: Read key-value pairs from config.txt
-for /f "tokens=1* delims==" %%a in (config.txt) do (
+for /f "tokens=1* delims==" %%a in (%BAT_CONFIG_PATH%) do (
     set %%a=%%b
 )
 
@@ -13,7 +13,7 @@ set "PYTHON_SCRIPT=%USER_PATH%\AppData\Roaming\McNeel\Rhinoceros\7.0\scripts\Rhi
 set "COUNTDOWN_DURATION=120"
 
 :: Iterate over each .3dm file in the current directory
-for %%i in (*.3dm) do (
+for %%i in (%OTHER_BAT_RELATIVE_DIRECTORY%) do (
     echo Processing file: %%i
 
     :: Display the countdown
