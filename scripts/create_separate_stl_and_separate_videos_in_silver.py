@@ -43,8 +43,6 @@ def main():
             parts = layer_name.split(str(i) + '_')
             layer_postfix = ('_' + parts[1]) if len(parts) > 1 else None
 
-            rs.ViewDisplayMode("Perspective", "Rendered")
-            rs.CurrentView("Perspective")
             captures_directory = functions.create_directory("Captures" + layer_postfix)
             if captures_directory:
                 functions.create_video_captures(captures_directory)

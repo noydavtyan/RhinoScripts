@@ -1,7 +1,6 @@
 @echo off
 setlocal
 
-
 :: Read key-value pairs from config.txt
 for /f "tokens=1* delims==" %%a in (%BAT_CONFIG_PATH%) do (
     set %%a=%%b
@@ -15,7 +14,7 @@ if "%count%"=="1" for %%i in (%BAT_RELATIVE_DIRECTORY%) do set "FILEPATH=%%~fi"
 
 :: If there's none or more than one .3dm file, prompt the user to pick a file
 if not defined FILEPATH (
-    for /f "delims=" %%i in ('powershell -command "[System.Reflection.Assembly]::LoadWithPartialName('System.windows.forms') | Out-Null; $OpenFileDialog = New-Object System.Windows.Forms.OpenFileDialog; $OpenFileDialog.InitialDirectory = Split-Path (Get-Location) -Parent; $OpenFileDialog.ShowDialog() | Out-Null; $OpenFileDialog.FileName"') do set "FILEPATH=%%i"
+    for /f "delims=" %%i in ('powershell -command "[System.Reflection.Assembly]::LoadWithPartialName('System.windows.forms') | Out-Null; $OpenFileDialog = New-Object System.Windows.Forms.OpenFileDialog; $OpenFileDialog.InitialDirectory = Split-Path (Split-Path (Get-Location) -Parent) -Parent; $OpenFileDialog.ShowDialog() | Out-Null; $OpenFileDialog.FileName"') do set "FILEPATH=%%i"
 )
 
 :: Check if a file was selected

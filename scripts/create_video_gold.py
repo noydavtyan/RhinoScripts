@@ -34,9 +34,7 @@ def main():
     rs.Redraw()
     
     #######################################
-    
-    rs.ViewDisplayMode("Perspective", "Rendered")
-    rs.CurrentView("Perspective")
+
     captures_directory = functions.create_directory("Captures")
     if captures_directory:
         functions.create_video_captures(captures_directory)

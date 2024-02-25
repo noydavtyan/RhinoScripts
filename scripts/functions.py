@@ -4,6 +4,7 @@ import Rhino.Render as rr
 import Rhino.DocObjects as rd
 import scriptcontext as sc
 import os
+import math
 
 #########################################################################################
 ## HIDE OR SHOW LAYERS
@@ -229,17 +230,97 @@ def capture_current_view(directory, view_name, width=1118, height=627):
 ##################################################################################################
 ## CREATE VIDEO FROM CAPTURES
 def create_video_captures(directory_base):
-    for i in range(180):
+    align_all()
+
+    all_objects = rs.AllObjects()
+    visible_objects = [obj for obj in all_objects if not rs.IsObjectHidden(obj) and not rs.IsLayerLocked(rs.ObjectLayer(obj))]
+
+    # Assume the entire model should be visible
+    bounding_box = rs.BoundingBox(visible_objects)
+    if not bounding_box: return
+
+    center = rs.PointDivide(rs.PointAdd(bounding_box[0], bounding_box[6]), 2)
+
+    # Determine the longest dimension of the bounding box to set the camera direction and distance
+    dimensions = [rs.Distance(bounding_box[0], bounding_box[1]),
+                  rs.Distance(bounding_box[0], bounding_box[3]),
+                  rs.Distance(bounding_box[0], bounding_box[4])]
+    longest_dimension = max(dimensions)
+
+    # Assume dimensions calculated as before
+    longest_dimension_index = dimensions.index(longest_dimension)
+
+    # Initialize direction vector
+    direction_vector = [0, 0, 0]
+
+    # Set the corresponding direction based on the longest dimension
+    if longest_dimension_index == 0:
+        rs.Command("_SetView _World Front")
+        rs.CurrentView("Front")
+        rotate90()
+        align_all()
+        rs.Command("_SetView _World Left")
+        rs.ViewDisplayMode("Left", "Rendered")
+        rs.CurrentView("Left")
+        rs.Command("_MaxViewport")
+        rs.Command("_ZEA")
         viewPort = rs.CurrentView()
-        rs.RotateView(viewPort, 0, 2)
-        rh.RhinoApp.Wait()
-        capture_current_view(directory_base, i)
-    for i in range(180):
+        for i in range(180):
+            viewPort = rs.CurrentView()
+            rs.RotateView(viewPort, 1, 2)
+            rh.RhinoApp.Wait()
+            capture_current_view(directory_base, i)
+        for i in range(180):
+            viewPort = rs.CurrentView()
+            rs.RotateView(viewPort, 2, 2)
+            rh.RhinoApp.Wait()
+            capture_current_view(directory_base, 180 + i)
+    elif longest_dimension_index == 1:
+        # Longest dimension along Y-axis
+        rs.Command("_SetView _World Front")
+        rs.CurrentView("Front")
+        rotate90()
+        rs.Command("_SetView _World Right")
+        rs.CurrentView("Right")
+        rotate90()
+        align_all()
+        rs.Command("_SetView _World Left")
+        rs.ViewDisplayMode("Left", "Rendered")
+        rs.CurrentView("Left")
+        rs.Command("_MaxViewport")
+        rs.Command("_ZEA")
         viewPort = rs.CurrentView()
-        rs.RotateView(viewPort, 2, 2)
-        rs.RotateView(viewPort, 0, 2)
-        rh.RhinoApp.Wait()
-        capture_current_view(directory_base, 180 + i)
+        for i in range(180):
+            viewPort = rs.CurrentView()
+            rs.RotateView(viewPort, 1, 2)
+            rh.RhinoApp.Wait()
+            capture_current_view(directory_base, i)
+        for i in range(180):
+            viewPort = rs.CurrentView()
+            rs.RotateView(viewPort, 2, 2)
+            rh.RhinoApp.Wait()
+            capture_current_view(directory_base, 180 + i)
+    elif longest_dimension_index == 2:
+        # Longest dimension along Z-axis
+        rs.Command("_SetView _World Right")
+        rs.ViewDisplayMode("Right", "Rendered")
+        rs.CurrentView("Right")
+        rs.Command("_MaxViewport")
+        rs.CurrentView("Right")
+        rs.Command("_ZEA")
+
+        viewPort = rs.CurrentView()
+        for i in range(180):
+            viewPort = rs.CurrentView()
+            rs.RotateView(viewPort, 1, 2)
+            rh.RhinoApp.Wait()
+            capture_current_view(directory_base, i)
+        for i in range(180):
+            viewPort = rs.CurrentView()
+            rs.RotateView(viewPort, 2, 2)
+            rh.RhinoApp.Wait()
+            capture_current_view(directory_base, 180 + i)
+
 
 ##################################################################################################
 ## READING CONFIG TO GET PYTHON_PATH
@@ -264,3 +345,19 @@ def get_create_video_python_file_path():
             if line.startswith("CREATE_VIDEO_WITH_LOGO_PATH="):
                 return line.strip().split('=')[1]
     return None
+
+##################################################################################################
+## ALLIGN ALL OBJECTS
+def align_all():
+    rs.SelectObjects(rs.AllObjects())
+    rs.Command("_Group")
+    rs.Command("_Align _Concentric _Enter")
+    rs.UnselectAllObjects()
+
+def rotate90():
+    rs.SelectObjects(rs.AllObjects())
+    rs.Command("_Rotate 0 90 _Enter")
+
+def rotate180():
+    rs.SelectObjects(rs.AllObjects())
+    rs.Command("_Rotate 0 180 _Enter")
