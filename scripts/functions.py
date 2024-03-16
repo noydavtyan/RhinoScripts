@@ -338,7 +338,9 @@ def get_create_video_python_file_path():
 ## ALLIGN ALL OBJECTS
 def align_all():
     rs.SelectObjects(rs.AllObjects())
-    rs.Command("_Group")
+    all_objects = rs.AllObjects()
+    if len(all_objects) > 1:
+        rs.Command("_Group")
     rs.Command("_Align _Concentric _Enter")
     rs.UnselectAllObjects()
 
