@@ -335,6 +335,18 @@ def get_create_video_python_file_path():
     return None
 
 ##################################################################################################
+## READING CONFIG TO GET CALCULATE_WEIGHT_FILE_PATH
+def get_calculate_weight_file_path():
+    """Read the configuration file and return the Python path."""
+
+    bat_config_path = os.environ.get('BAT_CONFIG_PATH')
+    with open(bat_config_path, 'r') as file:
+        for line in file:
+            if line.startswith("CALCULATE_WEIGHT_PATH="):
+                return line.strip().split('=')[1]
+    return None
+
+##################################################################################################
 ## ALLIGN ALL OBJECTS
 def align_all():
     rs.SelectObjects(rs.AllObjects())
