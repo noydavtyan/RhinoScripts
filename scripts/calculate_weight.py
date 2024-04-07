@@ -38,64 +38,70 @@ def main():
     if not unified_mesh.is_watertight:
         unified_mesh.fill_holes()
         unified_mesh.fix_normals()
-    volume = unified_mesh.volume
 
-    # Density values and calculate weights in grams
-    density_values = {
-        '9k Gold': 11200,
-        '14k Gold': 12600,
-        '18k Gold': 15300,
-        '925 Silver': 10490,
-    }
-    weights = {material: (volume * density) / 1000000 for material, density in density_values.items()}
+    for index, mesh in enumerate(unified_mesh.split()):
+        volume = mesh.volume
 
-    # Image setup
-    img_width, img_height = 330, 230
-    img = Image.new('RGBA', (img_width, img_height), (255, 255, 255, 255))
-    d = ImageDraw.Draw(img)
+        # Density values and calculate weights in grams
+        density_values = {
+            '9k Gold': 11200,
+            '14k Gold': 12600,
+            '18k Gold': 15300,
+            '925 Silver': 10490,
+        }
+        weights = {material: (volume * density) / 1000000 for material, density in density_values.items()}
 
-    # Load and resize logo
-    logo_path = get_logo_path()
-    logo = Image.open(logo_path).convert("RGBA")
-    logo_aspect_ratio = logo.width / logo.height
-    logo_height = 40
-    logo_width = int(logo_aspect_ratio * logo_height)
-    logo = logo.resize((logo_width, logo_height), Image.Resampling.LANCZOS)
+        # Image setup
+        img_width, img_height = 330, 230
+        img = Image.new('RGBA', (img_width, img_height), (255, 255, 255, 255))
+        d = ImageDraw.Draw(img)
 
-    # Define fonts
-    try:
-        header_font = ImageFont.truetype("arialbd.ttf", 18)  # Bold and larger for headers
-        regular_font = ImageFont.truetype("arial.ttf", 15)   # Regular for entries
-    except IOError:
-        header_font = ImageFont.load_default()
-        regular_font = ImageFont.load_default()
+        # Load and resize logo
+        logo_path = get_logo_path()
+        logo = Image.open(logo_path).convert("RGBA")
+        logo_aspect_ratio = logo.width / logo.height
+        logo_height = 40
+        logo_width = int(logo_aspect_ratio * logo_height)
+        logo = logo.resize((logo_width, logo_height), Image.Resampling.LANCZOS)
 
-    # Define table layout
-    start_x, start_y, line_height, column_width = 10, 10, 25, 225
+        # Define fonts
+        try:
+            header_font = ImageFont.truetype("arialbd.ttf", 18)  # Bold and larger for headers
+            regular_font = ImageFont.truetype("arial.ttf", 15)   # Regular for entries
+        except IOError:
+            header_font = ImageFont.load_default()
+            regular_font = ImageFont.load_default()
 
-    # Draw rounded rectangle as table background
-    border_radius = 15
-    draw_rounded_rectangle(d, [5, 5, img_width - 5, img_height - 5], border_radius, (255, 255, 255, 255))
+        # Define table layout
+        start_x, start_y, line_height, column_width = 10, 10, 25, 225
 
-    # Draw headers
-    d.text((start_x, start_y), "Material", fill=(0,0,0), font=header_font)
-    d.text((start_x + column_width, start_y), "Weight (g)", fill=(0,0,0), font=header_font)
+        # Draw rounded rectangle as table background
+        border_radius = 15
+        draw_rounded_rectangle(d, [5, 5, img_width - 5, img_height - 5], border_radius, (255, 255, 255, 255))
 
-    # Draw rows
-    start_y += line_height + 5  # Adjust for spacing after header
-    for material, weight in weights.items():
-        d.text((start_x, start_y), material, fill=(0,0,0), font=regular_font)
-        d.text((start_x + column_width, start_y), f"{weight:.2f}", fill=(0,0,0), font=regular_font)
-        start_y += line_height
+        # Draw headers
+        d.text((start_x, start_y), "Material", fill=(0,0,0), font=header_font)
+        d.text((start_x + column_width, start_y), "Weight (g)", fill=(0,0,0), font=header_font)
 
-    # Paste the logo in the bottom-right corner
-    img.paste(logo, (img.width - logo_width, img.height - logo_height), logo)
+        # Draw rows
+        start_y += line_height + 5  # Adjust for spacing after header
+        for material, weight in weights.items():
+            d.text((start_x, start_y), material, fill=(0,0,0), font=regular_font)
+            d.text((start_x + column_width, start_y), f"{weight:.2f}", fill=(0,0,0), font=regular_font)
+            start_y += line_height
 
-    # Convert to RGB and save the image
-    final_img = img.convert("RGB")
-    img_path = os.path.join(current_directory, "WEIGHT.png")
-    final_img.save(img_path, "PNG")
-    print(f"Image saved to {img_path}")
+        # Paste the logo in the bottom-right corner
+        img.paste(logo, (img.width - logo_width, img.height - logo_height), logo)
+
+        # Convert to RGB and save the image
+        final_img = img.convert("RGB")
+
+        if len(unified_mesh.split()) == 1:
+            img_path = os.path.join(current_directory, "WEIGHT.png")
+        else:
+            img_path = os.path.join(current_directory, "WEIGHT_" + str(index + 1) + ".png")
+        final_img.save(img_path, "PNG")
+        print(f"Image saved to {img_path}")
 
 if __name__ == '__main__':
     main()
