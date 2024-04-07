@@ -5,5 +5,5 @@ BAT_RELATIVE_DIRECTORY=..\..\*.3dm
 STL_RELATIVE_DIRECTORY=..\..\*.stl
 PYTHON_PATH=C:/Program Files/Python/Python37/python.exe
 CREATE_VIDEO_WITH_LOGO_PATH=C:/Users/noyda/AppData/Roaming/McNeel/Rhinoceros/7.0/scripts/RhinoScripts/scripts/create_video_with_logo.py
-CALCULATE_WEIGHT_PATH=C:/Users/noyda/AppData/Roaming/McNeel/Rhinoceros/7.0/scripts/RhinoScripts/scripts/.py
+CALCULATE_WEIGHT_PATH=C:/Users/noyda/AppData/Roaming/McNeel/Rhinoceros/7.0/scripts/RhinoScripts/scripts/calculate_weight.py
 LOGO_PATH=C:/Users/noyda/AppData/Roaming/McNeel/Rhinoceros/7.0/scripts/RhinoScripts/bandicam_logo.png

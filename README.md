@@ -9,9 +9,13 @@ Before running this project, you need to install the following software:
 
 2. **PILLOW Library for Python**
     - Install by running `pip install pillow` in your command line.
-
-3. **Git**
-    - Download and install from [Git's official website](https://git-scm.com/downloads).
+3. **Libraries needed for Weight Calculator**
+   - "C:\Program Files\Python\Python37\python.exe" -m pip install trimesh==3.20.1
+   - "C:\Program Files\Python\Python37\python.exe" -m pip install Pillow
+   - "C:\Program Files\Python\Python37\python.exe" -m pip install networkx
+   - "C:\Program Files\Python\Python37\python.exe" -m pip install scipy
+4.  **Git**
+   - Download and install from [Git's official website](https://git-scm.com/downloads).
 
 ## Configuration
 After installing the prerequisites, follow these steps to configure the environment:

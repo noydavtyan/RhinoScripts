@@ -10,8 +10,6 @@ def main():
     rs.Command("_ZEA")
     
     functions.export_to_stl()
-    
-    
 
 if __name__ == '__main__':
     main()
@@ -25,7 +23,7 @@ if __name__ == '__main__':
     python_path = functions.get_python_path()
     calculate_weight_path = functions.get_calculate_weight_file_path()
     # Command to run the external Python script to add logos to all the images in the Captures folder
-    command_calculate_weigth = [python_path,
+    command_calculate_weight = [python_path,
             calculate_weight_path,
             base_path, doc_name]
 
@@ -33,9 +31,14 @@ if __name__ == '__main__':
     startupinfo = subprocess.STARTUPINFO()
     startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
 
-    subprocess.Popen(command_calculate_weigth, startupinfo=startupinfo)
+    subprocess.Popen(command_calculate_weight, startupinfo=startupinfo)
+    process = subprocess.Popen(command_calculate_weight, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    stdout, stderr = process.communicate()
 
+    print("STDOUT:", stdout.decode())
+    print("STDERR:", stderr.decode())
+    
     sc.doc.Modified = False
-    rs.Command("_Exit")
+    #rs.Command("_Exit")
 
 

@@ -29,17 +29,11 @@ def main():
     current_directory = sys.argv[1].replace("\\\\", "/").replace("\\", "/").replace("\"","")
     file_name = sys.argv[2]
     stl_path = os.path.join(current_directory, file_name + ".stl")
-    mesh = trimesh.load_mesh(stl_path)
+    mesh = trimesh.load_mesh(stl_path, file_type='stl')
 
-    # Initialize an empty mesh to store the unified result and perform operations
-    unified_mesh = trimesh.Trimesh()
-    for submesh in mesh.split():
-        unified_mesh = unified_mesh.union(submesh, engine='blender')
-    if not unified_mesh.is_watertight:
-        unified_mesh.fill_holes()
-        unified_mesh.fix_normals()
+    components = mesh.split(only_watertight=False)
 
-    for index, mesh in enumerate(unified_mesh.split()):
+    for index, mesh in enumerate(components):
         volume = mesh.volume
 
         # Density values and calculate weights in grams
@@ -96,7 +90,7 @@ def main():
         # Convert to RGB and save the image
         final_img = img.convert("RGB")
 
-        if len(unified_mesh.split()) == 1:
+        if len(components) == 1:
             img_path = os.path.join(current_directory, "WEIGHT.png")
         else:
             img_path = os.path.join(current_directory, "WEIGHT_" + str(index + 1) + ".png")
