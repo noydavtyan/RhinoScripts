@@ -40,7 +40,8 @@ for %%i in ("%FILEPATH%") do set "FILENAME_ONLY=%%~ni"
 set "WEIGHT_PY=%USER_PATH%\AppData\Roaming\McNeel\Rhinoceros\7.0\scripts\RhinoScripts\scripts\calculate_weight.py"
 
 :: Use FILENAME_ONLY instead of FILEPATH for the Python script argument
-start /B cmd /c ""%PYTHON_PATH%" "%WEIGHT_PY%" "%GRANDPARENT_DIR%" "%FILENAME_ONLY%""
+"%PYTHON_PATH%" "%WEIGHT_PY%" "%GRANDPARENT_DIR%" "%FILENAME_ONLY%"
+
 
 :EndScript
 endlocal
