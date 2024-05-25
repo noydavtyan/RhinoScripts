@@ -224,7 +224,7 @@ def create_directory(directory_name):
 def capture_current_view(directory, view_name, width=1118, height=627):
     """Captures the current view and saves it to the specified directory."""
     capture_path = os.path.join(directory, "{}.png".format(view_name))
-    rs.Command('-ViewCaptureToFile W 1024 H 567 Scale 1 "{}" Enter'.format(capture_path), False)
+    rs.Command('-ViewCaptureToFile TransparentBackground=No W 1024 H 567 Scale 1 "{}" Enter'.format(capture_path), False)
 
     
 ##################################################################################################
