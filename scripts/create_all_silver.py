@@ -62,7 +62,7 @@ if __name__ == '__main__':
             base_path, doc_name, "Captures"]
     command_calculate_weigth = [python_path,
             calculate_weight_path,
-            base_path, doc_name]
+            base_path, doc_name, "600"]
     
 
     # This will suppress the console window

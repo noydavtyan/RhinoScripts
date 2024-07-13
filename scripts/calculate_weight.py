@@ -1,6 +1,7 @@
 import trimesh
 import os
 import sys
+import time
 from PIL import Image, ImageDraw, ImageFont
 
 ## READING CONFIG TO GET LOGO_PATH
@@ -28,9 +29,14 @@ def main():
     # Load a mesh
     current_directory = sys.argv[1].replace("\\\\", "/").replace("\\", "/").replace("\"","")
     file_name = sys.argv[2]
+    # Check if the argument for time is provided
+    if len(sys.argv) > 3:
+        sleep_time = int(sys.argv[3])
+    else:
+        sleep_time = 0  # Default time if not specified
+    time.sleep(sleep_time)
     stl_path = os.path.join(current_directory, file_name + ".stl")
     mesh = trimesh.load_mesh(stl_path, file_type='stl')
-
     components = mesh.split(only_watertight=False)
 
     for index, mesh in enumerate(components):

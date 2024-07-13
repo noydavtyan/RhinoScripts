@@ -288,7 +288,6 @@ def create_video_captures(directory_base):
     rs.RotateView(viewPort, 1, 4)
     rh.RhinoApp.Wait()
     rs.Command("_ZEA")
-llll
     layers_to_unhide = []
     for prefix in ["litnik", "Litnik", "Brnak", "brnak"]:
         layers_to_unhide.extend(toggle_layers_with_prefix(prefix))
