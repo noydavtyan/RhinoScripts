@@ -14,8 +14,6 @@ def main():
     rs.UnselectAllObjects()
     rs.Command("_ZEA")
     
-    #export_to_stl()
-    
     ##########################################
 
     functions.remove_all_materials()
@@ -36,14 +34,13 @@ def main():
     rs.Redraw()
     
     #######################################
-    
 
     captures_directory = functions.create_directory("Captures")
     if captures_directory:
         functions.create_video_captures(captures_directory)
-        
+
     ########################################
-    
+
 
 if __name__ == '__main__':
     main()
@@ -64,10 +61,7 @@ if __name__ == '__main__':
     # This will suppress the console window
     startupinfo = subprocess.STARTUPINFO()
     startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
-
     subprocess.Popen(command, startupinfo=startupinfo)
 
     sc.doc.Modified = False
     rs.Command("_Exit")
-
-
