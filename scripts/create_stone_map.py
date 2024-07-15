@@ -1,87 +1,78 @@
-import rhinoscriptsyntax as rs
+import os
+import sys
+import time
+from PIL import Image, ImageDraw, ImageFont
 
-def get_gem_data():
-    block_instances = rs.ObjectsByType(rs.filter.instance)
-    
-    gem_data, total_carat_weight = measureGems(block_instances)
-    if gem_data:
-        format_gem_data(gem_data, total_carat_weight)
+def get_logo_path():
+    """Read the configuration file and return the Python path."""
+    bat_config_path = os.environ.get('BAT_CONFIG_PATH')
+    with open(bat_config_path, 'r') as file:
+        for line in file:
+            if line.startswith("LOGO_PATH="):
+                return line.strip().split('=')[1]
+    return None
 
-def measureGems(gems):
-    gemDict = {}
-    unique_gems = {}
-    
-    for gem in gems:
-        xform = rs.BlockInstanceXform(gem)
-        plane = rs.PlaneTransform(rs.WorldXYPlane(), xform)
-        box = rs.BoundingBox(gem, plane, True)
-        if box:
-            width = round(rs.Distance(box[0], box[1]), 2)
-            length = round(rs.Distance(box[0], box[3]), 2)
-            height = round(rs.Distance(box[0], box[4]), 2)
-            key = (length, width, height)
-            if key in gemDict:
-                gemDict[key] += 1
-            else:
-                gemDict[key] = 1
-                unique_gems[key] = gem
-    
-    total_carat_weight = calculate_total_carat_weight(gemDict, unique_gems)
-    return gemDict, total_carat_weight
-
-def format_gem_data(gem_data, total_carat_weight):
-    total_count = 0
-    for dimensions, count in gem_data.items():
-        length, width = dimensions[:2]
-        if count == 1:
-            print("{}x{}: 1 stone".format(length, width))
-        else:
-            print("{}x{}: {} stones".format(length, width, count))
-        total_count += count
-    print("\nTotal number of stones: {}".format(total_count))
-    print("Total carat weight: {:.2f} carats".format(total_carat_weight))
-
-def calculate_total_carat_weight(gemDict, unique_gems):
-    total_volume_mm3 = 0
-
-    for key, gem in unique_gems.items():
-        # Copy the block instance
-        copied_gem = rs.CopyObject(gem)
-        if not copied_gem:
-            continue
-
-        # Explode the copied block instance to get individual components
-        exploded_objects = rs.ExplodeBlockInstance(copied_gem)
-        if not exploded_objects:
-            rs.DeleteObject(copied_gem)
-            continue
-
-        volume_mm3 = 0
-        for obj in exploded_objects:
-            volume_data = rs.SurfaceVolume(obj)
-            if not volume_data:  # Try as mesh if surface volume is None
-                volume_data = rs.MeshVolume(obj)
-            if volume_data:
-                volume_mm3 += volume_data[0]
-        
-        # Clean up exploded objects
-        rs.DeleteObjects(exploded_objects)
-        rs.DeleteObject(copied_gem)
-        
-        # Multiply the volume by the number of identical gems
-        total_volume_mm3 += volume_mm3 * gemDict[key]
-    
-    total_volume_cm3 = total_volume_mm3 * 1e-3  # Convert cubic millimeters to cubic centimeters
-    
-    density = 3.52  # Density of diamond in grams per cubic centimeter
-    total_mass_grams = total_volume_cm3 * density  # Calculate total mass in grams
-    
-    total_carat_weight = total_mass_grams / 0.2  # Convert mass to carats (1 carat = 0.2 grams)
-    
-    return total_carat_weight
+def draw_rounded_rectangle(draw, position, border_radius, fill, width=0):
+    x0, y0, x1, y1 = position
+    draw.rectangle([(x0, y0 + border_radius), (x1, y1 - border_radius)], fill=fill)
+    draw.rectangle([(x0 + border_radius, y0), (x1 - border_radius, y1)], fill=fill)
+    draw.pieslice([(x0, y0), (x0 + 2 * border_radius, y0 + 2 * border_radius)], 180, 270, fill=fill)
+    draw.pieslice([(x1 - 2 * border_radius, y0), (x1, y0 + 2 * border_radius)], 270, 360, fill=fill)
+    draw.pieslice([(x0, y1 - 2 * border_radius), (x0 + 2 * border_radius, y1)], 90, 180, fill=fill)
+    draw.pieslice([(x1 - 2 * border_radius, y1 - 2 * border_radius), (x1, y1)], 0, 90, fill=fill)
 
 def main():
-    get_gem_data()
+    # Load a mesh
+    current_directory = sys.argv[1].replace("\\\\", "/").replace("\\", "/").replace("\"","")
+    file_name = sys.argv[2]
+    gem_data = sys.argv[3]
+    if gem_data == "":
+        return
+    create_stone_map_image(gem_data, current_directory)
 
-if __name__ == "__main__":
+def create_stone_map_image(formatted_data, current_directory):
+
+    # Image setup
+    img_width, img_height = 400, 300
+    img = Image.new('RGBA', (img_width, img_height), (255, 255, 255, 255))
+    draw = ImageDraw.Draw(img)
+
+    # Load and resize logo
+    logo_path = get_logo_path()
+    logo = Image.open(logo_path).convert("RGBA")
+    logo_aspect_ratio = logo.width / logo.height
+    logo_height = 40
+    logo_width = int(logo_aspect_ratio * logo_height)
+    logo = logo.resize((logo_width, logo_height), Image.Resampling.LANCZOS)
+
+    # Define fonts
+    try:
+        header_font = ImageFont.truetype("arialbd.ttf", 18)  # Bold and larger for headers
+        regular_font = ImageFont.truetype("arial.ttf", 15)   # Regular for entries
+    except IOError:
+        header_font = ImageFont.load_default()
+        regular_font = ImageFont.load_default()
+
+    # Define table layout
+    start_x, start_y, line_height, column_width = 10, 10, 25, 225
+
+    # Draw rounded rectangle as table background
+    border_radius = 15
+    draw_rounded_rectangle(draw, [5, 5, img_width - 5, img_height - 5], border_radius, (255, 255, 255, 255))
+    #Draw headers
+    draw.text((start_x, start_y), "Stone Map", fill=(0,0,0), font=header_font)
+    # Draw headers and gem data
+    draw.text((start_x, start_y), formatted_data, fill=(0,0,0), font=regular_font)
+    start_y += line_height
+
+    # Paste the logo in the bottom-right corner
+    img.paste(logo, (img.width - logo_width, img.height - logo_height), logo)
+
+    # Convert to RGB and save the image
+    final_img = img.convert("RGB")
+    img_path = os.path.join(current_directory, "STONE_MAP.png")
+    final_img.save(img_path, "PNG")
+    print(f"Image saved to {img_path}")
+
+if __name__ == '__main__':
     main()

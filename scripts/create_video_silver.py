@@ -53,15 +53,28 @@ if __name__ == '__main__':
 
     python_path = functions.get_python_path()
     create_video_python_path = functions.get_create_video_python_file_path()
+    calculate_weight_path = functions.get_calculate_weight_file_path()
+    create_stone_map_path = functions.get_create_stone_map_path()
+    gem_data = functions.get_gem_data()
     # Command to run the external Python script to add logos to all the images in the Captures folder
-    command = [python_path,
+    command_create_video = [python_path,
             create_video_python_path,
             base_path, doc_name, "Captures"]
+    command_calculate_weigth = [python_path,
+            calculate_weight_path,
+            base_path, doc_name, "600"]
+    command_create_stone_map = [python_path,
+            create_stone_map_path,
+            base_path, doc_name, gem_data]
 
     # This will suppress the console window
     startupinfo = subprocess.STARTUPINFO()
     startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
-    subprocess.Popen(command, startupinfo=startupinfo)
+
+    subprocess.Popen(command_create_video, startupinfo=startupinfo)
+    subprocess.Popen(command_calculate_weigth, startupinfo=startupinfo)
+    subprocess.Popen(command_create_stone_map, startupinfo=startupinfo)
 
     sc.doc.Modified = False
     rs.Command("_Exit")
+
