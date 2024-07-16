@@ -62,7 +62,7 @@ if __name__ == '__main__':
             base_path, doc_name, "Captures"]
     command_calculate_weigth = [python_path,
             calculate_weight_path,
-            base_path, doc_name, "300"]
+            base_path, doc_name, "600"]
     command_create_stone_map = [python_path,
             create_stone_map_path,
             base_path, doc_name, gem_data]
