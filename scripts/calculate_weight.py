@@ -39,7 +39,7 @@ def main():
     mesh = trimesh.load_mesh(stl_path, file_type='stl')
     components = mesh.split(only_watertight=False)
 
-    if len(components) > 15:
+    if len(components) > 25:
         print("Number of components is greater than 10. No weight calculation will be performed.")
         return
 

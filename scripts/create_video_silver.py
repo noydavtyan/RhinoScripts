@@ -72,7 +72,6 @@ if __name__ == '__main__':
     startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
 
     subprocess.Popen(command_create_video, startupinfo=startupinfo)
-    subprocess.Popen(command_calculate_weigth, startupinfo=startupinfo)
     subprocess.Popen(command_create_stone_map, startupinfo=startupinfo)
 
     sc.doc.Modified = False

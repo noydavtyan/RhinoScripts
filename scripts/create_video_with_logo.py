@@ -76,7 +76,7 @@ def main():
         for file in files:
             if file.lower().endswith(('.png', '.jpg', '.jpeg')):
                 image_path = os.path.join(root, file)
-                add_logo_to_image(image_path, logo_path)
+                #add_logo_to_image(image_path, logo_path)
 
     video_output_path = os.path.join(current_directory, file_name + ".mp4")
     create_video(captures_directory, video_output_path)
