@@ -229,7 +229,7 @@ def capture_current_view(directory, view_name, width=1118, height=627):
     
 ##################################################################################################
 ## CREATE VIDEO FROM CAPTURES
-def create_video_captures(directory_base):
+def create_video_captures(directory_base, custom_direction):
     rs.Command("_-DocumentProperties _AnnotationStyles _ModelSpaceScaling=_Disabled _EnterEnd")
     align_all()
 
@@ -249,7 +249,10 @@ def create_video_captures(directory_base):
     longest_dimension = max(dimensions)
 
     # Assume dimensions calculated as before
-    longest_dimension_index = dimensions.index(longest_dimension)
+    if custom_direction == "Automatic":
+        longest_dimension_index = dimensions.index(longest_dimension)
+    else:
+        longest_dimension_index = custom_direction
 
     # Initialize direction vector
     direction_vector = [0, 0, 0]

@@ -13,8 +13,21 @@ def main():
     rs.Command("_SetView _World _Perspective")
     rs.UnselectAllObjects()
     rs.Command("_ZEA")
-    
+
     ##########################################
+
+    # Read the view
+    temp_file = os.path.join(os.getenv('TEMP'), 'View.txt')
+    with open(temp_file, 'r') as file:
+        lines = file.readlines()
+        direction = lines[0].strip()
+    view = "Automatic"
+    if direction == "X" or direction == "x":
+        view = 0
+    elif direction == "Y" or direction == "y":
+        view = 1
+    elif direction == "Z" or direction == "z":
+        view = 2
 
     functions.remove_all_materials()
 
@@ -37,7 +50,7 @@ def main():
 
     captures_directory = functions.create_directory("Captures")
     if captures_directory:
-        functions.create_video_captures(captures_directory)
+        functions.create_video_captures(captures_directory, view)
 
     ########################################
 

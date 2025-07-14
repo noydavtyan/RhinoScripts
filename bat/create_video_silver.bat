@@ -1,6 +1,14 @@
 @echo off
 setlocal
 
+:: Ask user for diameter
+echo Enter Longest Direction (X, Y, Z) or leave blank to autodetect:
+set /p View=
+
+:: Write values to temp file
+echo %View%>%TEMP%\View.txt
+
+
 :: Read key-value pairs from config.txt
 for /f "tokens=1* delims==" %%a in (%BAT_CONFIG_PATH%) do (
     set %%a=%%b
