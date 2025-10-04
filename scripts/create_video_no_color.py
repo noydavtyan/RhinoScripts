@@ -1,0 +1,90 @@
+import rhinoscriptsyntax as rs
+import Rhino as rh
+import scriptcontext as sc
+import subprocess
+import functions as functions
+import os
+
+def main():
+    #################################################
+    rs.CurrentView("Perspective")
+    rs.Command("_SetView _World _Perspective")
+    rs.UnselectAllObjects()
+    rs.Command("_ZEA")
+    ##########################################
+
+    # Read the view
+    view = "Automatic"
+    temp_file = os.path.join(os.getenv('TEMP'), 'View.txt')
+    with open(temp_file, 'r') as file:
+        lines = file.readlines()
+        direction = lines[0].strip()
+
+    if direction == "X" or direction == "x":
+        view = 0
+    elif direction == "Y" or direction == "y":
+        view = 1
+    elif direction == "Z" or direction == "z":
+        view = 2
+
+    #functions.remove_all_materials()
+
+     # Create materials
+    #functions.create_pbr_material(rh.Display.Color4f.FromArgb(255, 0.953, 0.815, 0.564), "Gold")
+    #functions.create_pbr_material(rh.Display.Color4f.FromArgb(255, 1, 1, 1), "Diamond", opacity=0)
+    #rs.Command("_ZEA")
+    rs.Command("-DocumentProperties R B B 105,105,105 enter enter enter", False)
+    rs.Command("-DocumentProperties R B U BottomColor 105,105,105 Enter Enter Enter", False)
+    rs.Command("-DocumentProperties R B U BottomColor 105,105,105 Enter Enter Enter", False)
+
+    #functions.select_objects_not_in_gem_layers_and_assign_material("Gold")
+    #functions.select_objects_in_gem_layers_and_assign_material("Diamond")
+
+    rs.Command("_ZEA")
+
+    #rs.Redraw()
+
+    #######################################
+
+    captures_directory = functions.create_directory("Captures")
+    if captures_directory:
+        functions.create_video_captures(captures_directory, view)
+
+    ########################################
+
+
+if __name__ == '__main__':
+    main()
+
+    base_path = rs.DocumentPath()
+    doc_name_with_extension = rs.DocumentName()
+
+    # Split the name and extension, and take just the name part
+    doc_name = os.path.splitext(doc_name_with_extension)[0]
+
+    python_path = functions.get_python_path()
+    create_video_python_path = functions.get_create_video_python_file_path()
+    calculate_weight_path = functions.get_calculate_weight_file_path()
+    create_stone_map_path = functions.get_create_stone_map_path()
+    gem_data = functions.get_gem_data()
+    # Command to run the external Python script to add logos to all the images in the Captures folder
+    command_create_video = [python_path,
+            create_video_python_path,
+            base_path, doc_name, "Captures"]
+    command_calculate_weigth = [python_path,
+            calculate_weight_path,
+            base_path, doc_name, "600"]
+    command_create_stone_map = [python_path,
+            create_stone_map_path,
+            base_path, doc_name, gem_data]
+
+    # This will suppress the console window
+    startupinfo = subprocess.STARTUPINFO()
+    startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
+
+    subprocess.Popen(command_create_video, startupinfo=startupinfo)
+    if gem_data != "":
+        subprocess.Popen(command_create_stone_map, startupinfo=startupinfo)
+
+    sc.doc.Modified = False
+    rs.Command("_Exit")
